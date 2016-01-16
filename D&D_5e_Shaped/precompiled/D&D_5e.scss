@@ -1282,6 +1282,7 @@ $tab-spell-page-width: 8.6%;
 @include tab-toggle('quick-class-actions', 35px, 'padding');
 @include tab-toggle('quick-class-resources', 50px, 'padding');
 @include tab-toggle('bonuses', 41px, 'padding');
+@include tab-toggle('class-levels', 31px, 'padding');
 
 span.sheet-toggle-spells-filter-casting-time-any,
 span.sheet-toggle-casting-time-reaction {
@@ -1674,7 +1675,9 @@ input.sheet-toggle-death-saves:not(:checked) ~ div div.sheet-death-save,
 input.sheet-toggle-quick-attacks:not(:checked) ~ div div.sheet-quick-attacks,
 input.sheet-toggle-quick-class-actions:not(:checked) ~ div div.sheet-quick-class-actions,
 input.sheet-toggle-quick-class-resources:not(:checked) ~ div div.sheet-quick-class-resources,
-input.sheet-toggle-bonuses:not(:checked) ~ div div.sheet-general-bonuses {
+input.sheet-toggle-bonuses:not(:checked) ~ div div.sheet-general-bonuses,
+        /* Class display options */
+input.sheet-toggle-class-levels:not(:checked) ~ .sheet-class-levels-resources {
 	display: none;
 }
 
