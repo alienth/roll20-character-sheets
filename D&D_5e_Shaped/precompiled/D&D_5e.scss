@@ -1277,6 +1277,11 @@ $tab-spell-page-width: 8.6%;
 @include tab-toggle('spell-filters', 28px, 'padding');
 @include tab-toggle('spell-toggle-buttons', 36px, 'padding');
 @include tab-toggle('spell-unchecked-attrs', 21px, 'padding');
+@include tab-toggle('quick-attacks', 63px, 'padding');
+@include tab-toggle('death-saves', 60px, 'padding');
+@include tab-toggle('quick-class-actions', 35px, 'padding');
+@include tab-toggle('quick-class-resources', 50px, 'padding');
+@include tab-toggle('bonuses', 41px, 'padding');
 
 span.sheet-toggle-spells-filter-casting-time-any,
 span.sheet-toggle-casting-time-reaction {
@@ -1663,12 +1668,24 @@ input.sheet-toggle-spell-toggle-buttons:not(:checked) ~ div .sheet-spell-toggle-
 input.sheet-toggle-spell-filters:not(:checked) ~ [class^=sheet-toggle-spells-filter],
 input.sheet-toggle-spell-filters:not(:checked) ~ span.sheet-spells-filter,
 input.sheet-toggle-spell-unchecked-attrs:not(:checked) ~ div div.sheet-wrap-box > input[class^=sheet-toggle]:not(:checked),
-input.sheet-toggle-spell-unchecked-attrs:not(:checked) ~ div div.sheet-wrap-box > input[class^=sheet-toggle]:not(:checked) + span {
+input.sheet-toggle-spell-unchecked-attrs:not(:checked) ~ div div.sheet-wrap-box > input[class^=sheet-toggle]:not(:checked) + span,
+        /* Core display options */
+input.sheet-toggle-death-saves:not(:checked) ~ div div.sheet-death-save,
+input.sheet-toggle-quick-attacks:not(:checked) ~ div div.sheet-quick-attacks,
+input.sheet-toggle-quick-class-actions:not(:checked) ~ div div.sheet-quick-class-actions,
+input.sheet-toggle-quick-class-resources:not(:checked) ~ div div.sheet-quick-class-resources,
+input.sheet-toggle-bonuses:not(:checked) ~ div div.sheet-general-bonuses {
 	display: none;
 }
 
 input.sheet-toggle-spell-unchecked-attrs:not(:checked) ~ div div.sheet-wrap-box > input[class^=sheet-toggle]:checked + span {
 	border-radius: $borderRadius;
+}
+
+input.sheet-toggle-quick-attacks:not(:checked) ~ div div.sheet-quick-attacks + div.sheet-resistances-immunities {
+	textarea {
+		height: 44px;
+	}
 }
 
 .sheet-section-spells {
