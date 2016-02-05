@@ -1,3 +1,4 @@
+var a=' vim: set noexpandtab ts=8 sw=8: ';
 var currentVersion = '2.0.1';
 
 var capitalizeFirstLetter = function (string) {
@@ -1630,7 +1631,7 @@ on('change:jack_of_all_trades_toggle change:jack_of_all_trades', function () {
 });
 
 var sheetOpened = function () {
-	var collectionArray = ['version'];
+	var collectionArray = ['version', 'misc_notes'];
 	var finalSetAttrs = {};
 
 	getAttrs(collectionArray, function (v) {
@@ -1718,20 +1719,25 @@ var sheetOpened = function () {
 				finalSetAttrs[repeatingString + 'name'] = skills[i].name;
 				finalSetAttrs[repeatingString + 'ability'] = '@{' + skills[i].ability + '_mod}';
 			}
-      updateSkill();
+			updateSkill();
+		}
+
+		if (v.misc_notes) {
+			finalSetAttrs['miscellaneous_notes'] = v.misc_notes;
 		}
 
 		if (!version || version !== currentVersion) {
 			finalSetAttrs.version = currentVersion;
 		}
 
-    console.log('sheetOpened', finalSetAttrs);
-    setFinalAttrs(v, finalSetAttrs);
+		console.log('sheetOpened', finalSetAttrs);
+		setFinalAttrs(v, finalSetAttrs);
 	});
 };
 
 on('sheet:opened', function () {
 	sheetOpened();
+	console.log('jason test');
 });
 
 var updateAttachers = function () {
