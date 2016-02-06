@@ -1630,8 +1630,54 @@ on('change:jack_of_all_trades_toggle change:jack_of_all_trades', function () {
 	updateSkill();
 });
 
+var updateOldWeapons = function () {
+	var newAttrs = {};
+	var newPrefix = 'repeating_attack_';
+	var oldPrefix = 'repeating_weapons_';
+	var collectionArray = [];
+
+	var attrMap = {
+		'name': 'name',
+		'proficient': 'proficiency',
+		'attack_stat': 'attack_ability'
+	};
+
+	var types = ['melee', 'ranged'];
+	for (i = 0; i < 7; i++) {
+		for (var attr in attrMap) {
+			for (var type in types) {
+				collectionArray = collectionArray.concat(oldPrefix + types[type] + '_' + i + '_' + attr);
+			}
+		}
+	}
+	getSectionIDs(oldPrefix + 'melee', function(idArray) {
+		console.log('jason section ID: ' + idArray);
+	});
+	console.log('jason collection: ' + collectionArray);
+	getAttrs(collectionArray, function (v) {
+		console.log('jason result: ' + Object.keys(v));
+		for (i = 0; i < 7; i++) {
+			for (var attr in attrMap) {
+				for (var type in types) {
+					var attrName = oldPrefix + types[type] + '_' + i + '_' + attr;
+					console.log("jason " + attrName + " search");
+					if (v.hasOwnProperty(attrName)) {
+						newAttrs[attrMap[attrName]] = v[attrName];
+						console.log("jason " + attrName + " found");
+					}
+				}
+			}
+		}
+	});
+	console.log('trying to spit out attrs?');
+	getAttrs(collectionArray, log);
+};
+
 var sheetOpened = function () {
-	var collectionArray = ['version', 'misc_notes'];
+	var attrMap = {
+		'misc_notes': 'miscellaneous_notes'
+	};
+	var collectionArray = ['version'].concat(Object.keys(attrMap));
 	var finalSetAttrs = {};
 
 	getAttrs(collectionArray, function (v) {
@@ -1713,6 +1759,8 @@ var sheetOpened = function () {
 				}
 			];
 
+			updateOldWeapons();
+
 			for (var i = 0; i < skills.length; i++) {
 				var newRowId = generateRowID();
 				var repeatingString = 'repeating_skill_' + newRowId + '_';
@@ -1720,10 +1768,19 @@ var sheetOpened = function () {
 				finalSetAttrs[repeatingString + 'ability'] = '@{' + skills[i].ability + '_mod}';
 			}
 			updateSkill();
-		}
 
-		if (v.misc_notes) {
-			finalSetAttrs['miscellaneous_notes'] = v.misc_notes;
+			for (var attr in attrMap) {
+				if (v.hasOwnProperty(attr)) {
+					finalSetAttrs[attrMap[attr]] = v[attr];
+					console.log('updated ' + attr + ' to ' + attrMap[attr]);
+				}
+			}
+
+			var abilities = ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'];
+			for (var i in abilities) {
+				updateAbilityModifier(abilities[i]);
+			}
+
 		}
 
 		if (!version || version !== currentVersion) {
@@ -1737,7 +1794,6 @@ var sheetOpened = function () {
 
 on('sheet:opened', function () {
 	sheetOpened();
-	console.log('jason test');
 });
 
 var updateAttachers = function () {
